@@ -3,7 +3,7 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { Box, OrbitControls, Stage } from "@react-three/drei";
 import { useViewportScroll, motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import bisko from "./top.png";
+import bisko from "./2d_image.png";
 
 // import Model from "./Model";
 

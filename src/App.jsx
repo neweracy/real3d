@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Herost from "./HeroSection/Herost";
-import firstPict from "./assets/images/Enscape_2024-10-18-05-31-23.png";
+import firstPict from "./assets/images/house6.png";
 import Anime from "./HeroSection/Anime";
 import { motion } from "framer-motion"; // Import motion components from Framer Motion library
 import Anime2 from "./HeroSection/Anime2"; // Import Anime2 component from "./Anime2"
@@ -13,6 +13,7 @@ import ThreeD from "./components/3d_view/ThreeD.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import { Link, animateScroll as scroll } from "react-scroll";
 import Pre from "./components/Preloader.jsx";
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "./Herost.css"; // Import CSS styles
 import { motion } from "framer-motion"; // Import motion components from Framer Motion library
-import bisko from "../assets/images/hero.jpeg"; // Import an image
+import bisko from "../assets/images/house5.png"; // Import an image
 import Anime from "./Anime"; // Import Anime component from "./Anime"
 import Anime2 from "./Anime2"; // Import Anime2 component from "./Anime2"
 

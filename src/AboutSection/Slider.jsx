@@ -2,9 +2,9 @@ import React from "react";
 import { useViewportScroll, motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import "./Slider.css";
-import slider1 from "../assets/images/Enscape_2024-10-18-05-28-12.png";
-import slider2 from "../assets/images/Enscape_2024-10-18-05-32-47.png";
-import slider3 from "../assets/images/Enscape_2024-10-18-05-33-57.png";
+import slider1 from "../assets/images/house4.png";
+import slider2 from "../assets/images/house3.png";
+import slider3 from "../assets/images/house1.png";
 import divider from "../assets/images/divider.png";
 import h from './pattern-png-transparent-4.png'
 

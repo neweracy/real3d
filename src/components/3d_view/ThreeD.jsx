@@ -4,6 +4,9 @@ import { Box, OrbitControls, Stage } from "@react-three/drei";
 import { useViewportScroll, motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import TwoD from "../2d_view/TwoD";
+import House from "../../../public/House";
+
+
 
 // import Model from "./Model";
 
@@ -43,6 +46,23 @@ const ThreeD = () => {
       scrollY.onChange(() => {});
     };
   }, [controlsArray, scrollY]);
+
+  const MakeScene = () => {
+    return (
+      <>
+        <Canvas camera={{ position: [1, 0.6, 20], far: 2000 }}>
+          <ambientLight intensity={1} />
+          <pointLight position={[10, 10, 10]} />
+          <OrbitControls />
+         
+          <React.Suspense fallback={null}>
+            <House />
+          </React.Suspense>
+         
+        </Canvas>
+      </>
+    );
+  };
 
   const widths = window.innerWidth;
   return (
@@ -96,15 +116,9 @@ const ThreeD = () => {
           {/* Right column */}
           <div className="order-3 lg:order-2  grid grid-cols-1 w-full  sm:w-full md:w-auto lg:w-full">
             {/* Motion-animated image */}
-            <iframe
-              src="https://embed-3dwarehouse.sketchup.com/embed/801817de-d266-4ba4-a858-ea11e1ce3119?token=iujfBmhzGhs=&binaryName=s21"
-              frameborder="0"
-              scrolling="no"
-              marginheight="0"
-              marginwidth="0"
-              allowfullscreen
-              className=" h-96 w-full sm:w-full col-span-1  object-cover  rounded-xl  md:w-[700px] md:h-[600px] lg:w-full lg:h-[700px] xl:w-[800px] xl:h-[800px]  border-b-2 shadow-lg"
-            ></iframe>
+            <div className=" h-96 w-full sm:w-full col-span-1  object-cover  rounded-xl  md:w-[700px] md:h-[600px] lg:w-full lg:h-[700px] xl:w-[800px] xl:h-[800px]  border-b-2 ">
+              <MakeScene />
+            </div>
           </div>
         </div>
 
