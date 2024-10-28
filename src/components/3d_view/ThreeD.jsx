@@ -116,7 +116,7 @@ const ThreeD = () => {
           {/* Right column */}
           <div className="order-3 lg:order-2  grid grid-cols-1 w-full  sm:w-full md:w-auto lg:w-full">
             {/* Motion-animated image */}
-            <div className=" h-96 w-full sm:w-full col-span-1  object-cover  rounded-xl  md:w-[700px] md:h-[600px] lg:w-full lg:h-[700px] xl:w-[800px] xl:h-[800px]  border-b-2 ">
+            <div className=" h-96 w-full sm:w-full col-span-1  object-cover    md:w-[700px] md:h-[600px] lg:w-full lg:h-[700px] xl:w-[800px] xl:h-[800px]   ">
               <MakeScene />
             </div>
           </div>
