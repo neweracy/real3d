@@ -1,7 +1,7 @@
 import React, { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Sphere, OrbitControls, Html } from "@react-three/drei";
-import Earth from '../../public/Earth'
+
 
 const Scene = () => {
   const boxRef = useRef();
@@ -26,9 +26,7 @@ const App = () => {
         <OrbitControls />
         <Scene />
         <ambientLight />
-        <Suspense fallback={null}>
-          <Earth />
-        </Suspense>
+        
       </Canvas>
       
     </>
