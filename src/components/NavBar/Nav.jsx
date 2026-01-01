@@ -4,15 +4,14 @@ import "./Nav.css";
 import Drawer from "./Drawer";
 
 const Nav = () => {
-  const [navBg, setNavBg] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll event to toggle background
+  // Handle scroll event to add subtle background on scroll
   const handleScroll = () => {
-    const heroHeight = window.innerHeight; // Set this to the height of the screen
-    if (window.scrollY >= heroHeight) {
-      setNavBg(true);
+    if (window.scrollY >= 50) {
+      setIsScrolled(true);
     } else {
-      setNavBg(false);
+      setIsScrolled(false);
     }
   };
 
@@ -26,30 +25,33 @@ const Nav = () => {
   }, []);
 
   return (
-    <div className="NavBody">
+    <div className="fixed top-0 left-0 right-0 z-50">
       <motion.div
-        className="progress-bar"
+        className="absolute top-0 left-0 right-0 h-[2px] bg-primary origin-left z-50"
         style={{ scaleX: scrollYProgress }}
       />
+
       <div
-        className={`navbar h-[12px] max-w-screen shadow-md ${
-          navBg ? "bg-white shadow-lg" : "bg-transparent"
+        className={`navbar px-6 md:px-12 transition-all duration-300 ease-in-out ${
+          isScrolled
+            ? "bg-surface-light/90 backdrop-blur-md shadow-sm py-2"
+            : "bg-transparent py-6"
         }`}
       >
         <div className="flex-1">
           <a
             href="#"
-            className={`btn btn-ghost ${
-              navBg ? "text-yellow-600 " : "text-white"
-            } normal-case text-xl`}
+            className={`text-2xl font-black tracking-tighter uppercase transition-colors duration-300 ${
+              isScrolled ? "text-surface-dark" : "text-white"
+            }`}
           >
-            Real3D
+            Real<span className="text-primary">3D</span>
           </a>
         </div>
         <div className="flex-none">
-          <ul className="menu menu-horizontal px-1 text-lg">
+          <ul className="menu menu-horizontal px-1">
             <li>
-              <Drawer />
+              <Drawer isScrolled={isScrolled} />
             </li>
           </ul>
         </div>

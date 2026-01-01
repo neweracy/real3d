@@ -4,114 +4,123 @@ import bisko from "/vite.svg";
 
 import { Link, animateScroll as scroll } from "react-scroll";
 
-const Drawer = () => {
-  const [navBg, setNavBg] = useState(false);
-
-  // Handle scroll event to toggle background
-  const handleScroll = () => {
-    const heroHeight = window.innerHeight; // Set this to the height of the screen
-    if (window.scrollY >= heroHeight) {
-      setNavBg(true);
-    } else {
-      setNavBg(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
+const Drawer = ({ isScrolled }) => {
   return (
     <div className="">
-      <div className="drawer pl-0 m-0">
+      <div className="drawer drawer-end">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
-          {/* Page content here */}
+          {/* Toggle Button */}
           <label
             htmlFor="my-drawer"
-            className={` ${
-              navBg ? "bg-yellow-500 " : "bg-white"
-            } rounded-full p-1 drawer-button swap swap-flip`}
+            className={`btn btn-circle btn-ghost transition-colors duration-300 ${
+              isScrolled
+                ? "text-surface-dark hover:bg-surface-muted"
+                : "text-white hover:bg-white/10"
+            }`}
           >
             <svg
-              className={` swap-off fill-current ${
-                navBg ? "text-white " : "text-black"
-              }`}
               xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 512 512"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
-            </svg>
-
-            <svg
-              className="swap-on fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 512 512"
-            >
-              <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
+              <path
+                strokeLinecap="square"
+                strokeLinejoin="miter"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </label>
         </div>
-        <div className="drawer-side ">
-          <label htmlFor="my-drawer" className="drawer-overlay"></label>
-          <ul className="menu -inset-x-4 lg:w-96 sm:w-64  h-full  bg-white text-gray-700 DBody ">
-            {/* Sidebar content here */}
-            <li>
-              <div className="flex w-auto h-auto justify-center items-center m-5">
-                <div className=" avatar">
-                  <div className="w-24 rounded-full">
-                    <img src={bisko} alt="" />
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <Link
-                activeClass="active"
-                className="mt-6 mb-4 font-semibold text-xl text-yellow-600"
-                to="Hero"
-                spy={true}
-                smooth={true}
-                offset={-70} // Adjust the offset if needed to account for your fixed header
-                duration={400}
+
+        {/* Drawer Side */}
+        <div className="drawer-side z-50">
+          <label
+            htmlFor="my-drawer"
+            className="drawer-overlay backdrop-blur-sm bg-surface-dark/50"
+          ></label>
+          <div className="menu p-4 w-80 h-full bg-surface-light text-text-main flex flex-col justify-center space-y-8">
+            {/* Close Button (Optional, but good UX) */}
+            <div className="absolute top-4 right-4">
+              <label
+                htmlFor="my-drawer"
+                className="btn btn-sm btn-circle btn-ghost"
               >
-                HOME
-              </Link>
-            </li>
-            <li>
-              <Link
-                activeClass="active"
-                className=" mb-4 font-semibold text-xl text-yellow-600"
-                to="Slider"
-                spy={true}
-                smooth={true}
-                offset={-70} // Adjust the offset if needed to account for your fixed header
-                duration={400}
-              >
-                SLIDER
-              </Link>
-            </li>
-            <li>
-              <Link
-                activeClass="active"
-                className=" font-semibold text-xl text-yellow-600"
-                to="Visuals"
-                spy={true}
-                smooth={true}
-                offset={-70} // Adjust the offset if needed to account for your fixed header
-                duration={400}
-              >
-                VISUALS
-              </Link>
-            </li>
-          </ul>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </label>
+            </div>
+
+            {/* Logo in Drawer */}
+            <div className="text-center mb-8">
+              <span className="text-3xl font-black tracking-tighter uppercase text-surface-dark">
+                Real<span className="text-primary">3D</span>
+              </span>
+            </div>
+
+            {/* Navigation Links */}
+            <ul className="space-y-4 text-center">
+              <li>
+                <Link
+                  activeClass="text-primary"
+                  className="block text-2xl font-bold hover:text-primary transition-colors uppercase tracking-wide"
+                  to="Hero"
+                  spy={true}
+                  smooth={true}
+                  offset={0}
+                  duration={800}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  activeClass="text-primary"
+                  className="block text-2xl font-bold hover:text-primary transition-colors uppercase tracking-wide"
+                  to="Slider"
+                  spy={true}
+                  smooth={true}
+                  offset={0}
+                  duration={800}
+                >
+                  Projects
+                </Link>
+              </li>
+              <li>
+                <Link
+                  activeClass="text-primary"
+                  className="block text-2xl font-bold hover:text-primary transition-colors uppercase tracking-wide"
+                  to="Visuals"
+                  spy={true}
+                  smooth={true}
+                  offset={0}
+                  duration={800}
+                >
+                  Visuals
+                </Link>
+              </li>
+            </ul>
+
+            {/* Footer/Socials in Drawer */}
+            <div className="text-center mt-12 text-text-muted text-sm">
+              <p>&copy; 2026 Real3D</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
