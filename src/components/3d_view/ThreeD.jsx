@@ -1,131 +1,239 @@
-import React from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { Box, OrbitControls, Stage } from "@react-three/drei";
-import { useViewportScroll, motion, useAnimation } from "framer-motion";
+import React, { Suspense, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import {
+  OrbitControls,
+  Environment,
+  ContactShadows,
+  Stage,
+} from "@react-three/drei";
+import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import TwoD from "../2d_view/TwoD";
 import House from "../../../public/House";
 
-
-
-// import Model from "./Model";
-
 const ThreeD = () => {
-  const { scrollY } = useViewportScroll();
-  const sectionRefs = Array.from({ length: 2 }, () => React.useRef(null)); // Array of refs for sections
   const [ref, inView] = useInView({
-    triggerOnce: true, // Trigger the animation only once
+    triggerOnce: true,
+    threshold: 0.1,
   });
-  const controlsArray = sectionRefs.map(() => useAnimation()); // Array of animation controls
 
-  const isElementInViewport = (el) => {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= window.innerHeight &&
-      rect.right <= window.innerWidth
-    );
-  };
+  const [isInteracting, setIsInteracting] = useState(false);
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      controlsArray.forEach((controls, index) => {
-        const sectionRef = sectionRefs[index].current;
-        if (sectionRef && isElementInViewport(sectionRef)) {
-          controls.start({ scale: 1.1 });
-        } else {
-          controls.start({ scale: 1 });
-        }
-      });
-    };
-
-    scrollY.onChange(() => handleScroll());
-
-    return () => {
-      scrollY.onChange(() => {});
-    };
-  }, [controlsArray, scrollY]);
-
-  const MakeScene = () => {
-    return (
-      <>
-        <Canvas camera={{ position: [1, 0.6, 20], far: 2000 }}>
-          <ambientLight intensity={1} />
-          <pointLight position={[10, 10, 10]} />
-          <OrbitControls />
-         
-          <React.Suspense fallback={null}>
-            <House />
-          </React.Suspense>
-         
-        </Canvas>
-      </>
-    );
-  };
-
-  const widths = window.innerWidth;
   return (
-    <>
-      <div className="h-auto w-auto px-10 flex justify-center  text-center flex-col mt-14 mb-8 uppercase">
-        <motion.span
+    <div className="bg-surface-light text-text-main py-20 lg:py-32 overflow-hidden">
+      {/* Section Header */}
+      <div className="container mx-auto px-6 md:px-12 mb-20 text-center">
+        <motion.div
           ref={ref}
-          className="text-xl sm:text-xl lg:text-3xl md:text-2xl font-bold text-yellow-500 m-1"
-          initial={{ opacity: 0, y: 20 }} // Initial style
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }} // Animation based on inView status
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeInOut" }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col items-center"
         >
-          Visuals
-          <p className="text-sm md:text-lg self-center border-b-2   lg:mt-16 mt-8 lg:mb-6 text-gray-600"></p>
-        </motion.span>
+          <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4">
+            Process & Output
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-surface-dark mb-6">
+            VISUALIZATION{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
+              WORKFLOW
+            </span>
+          </h2>
+          <div className="h-1 w-24 bg-primary mb-8" />
+          <p className="max-w-2xl text-lg text-text-muted leading-relaxed">
+            From precise 2D drafting to hyper-realistic 3D rendering. We
+            transform conceptual blueprints into immersive spatial experiences.
+          </p>
+        </motion.div>
       </div>
-      <section class="px-3  py-5  lg:py-10">
-        <div className=" text-center mb-12 lg:mb-28 lg:px-14">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste repellat
-          adipisci in fugiat, non hic harum officiis necessitatibus omnis
-          dignissimos dolore vel. Quasi adipisci amet fugit! Nihil quibusdam
-          aliquam molestiae? Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Animi, corrupti. Corporis nemo tempore doloribus labore facilis,
-          a vel libero, et laudantium explicabo expedita. Ab voluptatum saepe
-          ratione assumenda quasi explicabo.
-        </div>
-        <div className="">
-          <TwoD />
-        </div>
-        {/* Grid container with two columns for layout */}
 
-        <div className="grid lg:grid-cols-2 items-center justify-items-center gap-2">
-          {/* Left column */}
-          <div className="order-2 lg:order-1 flex flex-col justify-center items-center overflow-hidden">
-            {/* Motion-animated paragraph using Anime component */}
+      {/* 2D Section Integration */}
+      <div className="container mx-auto px-6 md:px-12 mb-24">
+        <TwoD />
+      </div>
 
-            {/* Motion-animated paragraph using Anime2 component */}
-            <p className="text-xl font-bold md:text-xl m-0 text-gray-700  ">
-              3D VISUAL
-            </p>
-            <p className="text-center mt-4 mb-6 lg:mb-0 ">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis
-              unde, quo totam earum vitae soluta numquam officiis saepe eaque
-              nam! Officia tempore iusto quas neque enim facere eius iure
-              itaque?
-            </p>
+      {/* 3D Interactive Section */}
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          {/* 3D Context & Instructions */}
+          <div className="lg:col-span-5 order-2 lg:order-1">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 rounded-full bg-surface-dark text-white flex items-center justify-center font-bold text-xl">
+                  3D
+                </div>
+                <h3 className="text-3xl font-bold text-surface-dark">
+                  Interactive Model
+                </h3>
+              </div>
 
-            {/* Button with motion animation */}
-            <div className=" mt-2 grid items-center justify-center grid-cols-7 lg:grid-cols-7 md:grid-cols-7 gap-0.5  "></div>
+              <p className="text-text-muted text-lg leading-relaxed">
+                Experience the spatial volume and architectural details in
+                real-time. Rotate, zoom, and explore the structure from every
+                angle to understand the design intent.
+              </p>
+
+              <div className="bg-surface-muted p-6 border-l-4 border-primary">
+                <h4 className="font-bold text-surface-dark mb-2 uppercase text-sm tracking-wide">
+                  How to Interact
+                </h4>
+                <ul className="space-y-2 text-sm text-text-muted font-mono">
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full" /> Left
+                    Click + Drag to Rotate
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full" /> Scroll
+                    to Zoom In/Out
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full" /> Right
+                    Click to Pan
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
           </div>
-          {/* Right column */}
-          <div className="order-3 lg:order-2  grid grid-cols-1 w-full  sm:w-full md:w-auto lg:w-full">
-            {/* Motion-animated image */}
-            <div className=" h-96 w-full sm:w-full col-span-1  object-cover    md:w-[700px] md:h-[600px] lg:w-full lg:h-[700px] xl:w-[800px] xl:h-[800px]   ">
-              <MakeScene />
-            </div>
+
+          {/* 3D Canvas Viewport */}
+          <div className="lg:col-span-7 order-1 lg:order-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative w-full aspect-square lg:aspect-[4/3] bg-surface-muted rounded-sm overflow-hidden shadow-2xl border border-surface-dark/10 group flex flex-col"
+              onMouseEnter={() => setIsInteracting(true)}
+              onMouseLeave={() => setIsInteracting(false)}
+            >
+              {/* Header Bar */}
+              <div className="h-10 bg-surface-light border-b border-surface-dark/5 flex items-center justify-between px-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-red-400" />
+                  <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                  <div className="w-2 h-2 rounded-full bg-green-400" />
+                </div>
+                <div className="text-xs font-mono text-text-muted uppercase tracking-wider">
+                  Model_View_01.obj
+                </div>
+                <div className="w-4" /> {/* Spacer */}
+              </div>
+
+              {/* Interaction Hint Overlay */}
+              <div
+                className={`absolute inset-0 top-10 z-10 pointer-events-none flex items-center justify-center transition-all duration-500 ${
+                  isInteracting
+                    ? "opacity-0 scale-110"
+                    : "opacity-100 scale-100"
+                }`}
+              >
+                <div className="bg-surface-dark/90 backdrop-blur-md text-white px-8 py-4 rounded-full font-mono text-sm tracking-widest uppercase flex items-center gap-4 shadow-xl border border-white/10">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                  </span>
+                  Click to Interact
+                </div>
+              </div>
+
+              {/* Canvas Container */}
+              <div className="flex-1 relative bg-gradient-to-b from-surface-muted to-white">
+                <Canvas
+                  camera={{ position: [8, 6, 8], fov: 45 }}
+                  shadows
+                  dpr={[1, 2]}
+                >
+                  <Suspense fallback={null}>
+                    <Environment preset="city" />
+                    <ambientLight intensity={0.6} />
+                    <spotLight
+                      position={[10, 15, 10]}
+                      angle={0.2}
+                      penumbra={1}
+                      shadow-mapSize={2048}
+                      castShadow
+                      intensity={1.5}
+                    />
+                    <ContactShadows
+                      resolution={1024}
+                      scale={20}
+                      blur={2}
+                      opacity={0.25}
+                      far={10}
+                      color="#000000"
+                    />
+
+                    <Stage
+                      environment="city"
+                      intensity={0.5}
+                      contactShadow={false}
+                    >
+                      <House />
+                    </Stage>
+
+                    <OrbitControls
+                      autoRotate={!isInteracting}
+                      autoRotateSpeed={0.8}
+                      enableZoom={true}
+                      makeDefault
+                      minPolarAngle={0}
+                      maxPolarAngle={Math.PI / 2.1}
+                    />
+                  </Suspense>
+                </Canvas>
+              </div>
+
+              {/* Bottom Toolbar */}
+              <div className="h-12 bg-surface-light border-t border-surface-dark/5 flex items-center justify-between px-6 text-text-muted">
+                <div className="flex items-center gap-6 text-xs font-mono">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                    <span>ROTATE</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                      />
+                    </svg>
+                    <span>ZOOM</span>
+                  </div>
+                </div>
+                <div className="text-xs font-bold text-primary">
+                  LIVE RENDER
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
-
-        {/* Empty div */}
-        <div className=""></div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 };
 

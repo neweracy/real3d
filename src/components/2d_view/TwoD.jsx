@@ -8,88 +8,64 @@ import bisko from "./2d_image.png";
 // import Model from "./Model";
 
 const TwoD = () => {
-  const { scrollY } = useViewportScroll();
-  const sectionRefs = Array.from({ length: 2 }, () => React.useRef(null)); // Array of refs for sections
-  const [ref, inView] = useInView({
-    triggerOnce: true, // Trigger the animation only once
-  });
-  const controlsArray = sectionRefs.map(() => useAnimation()); // Array of animation controls
-
-  const isElementInViewport = (el) => {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= window.innerHeight &&
-      rect.right <= window.innerWidth
-    );
-  };
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-      controlsArray.forEach((controls, index) => {
-        const sectionRef = sectionRefs[index].current;
-        if (sectionRef && isElementInViewport(sectionRef)) {
-          controls.start({ scale: 1.1 });
-        } else {
-          controls.start({ scale: 1 });
-        }
-      });
-    };
-
-    scrollY.onChange(() => handleScroll());
-
-    return () => {
-      scrollY.onChange(() => {});
-    };
-  }, [controlsArray, scrollY]);
-
-  const widths = window.innerWidth;
   return (
-    <>
-      <section class="px-3  py-5  lg:py-10">
-        {/* Grid container with two columns for layout */}
+    <div className="grid lg:grid-cols-12 gap-12 items-center">
+      {/* Image Side */}
+      <div className="lg:col-span-7 order-1">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative group"
+        >
+          <div className="absolute inset-0 bg-primary translate-x-2 translate-y-2 lg:translate-x-4 lg:translate-y-4 -z-10" />
+          <img
+            src={bisko}
+            alt="2D Blueprint"
+            className="w-full h-auto object-cover border border-surface-dark/10 shadow-xl grayscale hover:grayscale-0 transition-all duration-500"
+          />
+        </motion.div>
+      </div>
 
-        <div className="grid lg:grid-cols-2 items-center justify-items-center gap-2">
-          {/* Left column */}
-          <div className="order-2 lg:order-2 flex flex-col justify-center items-center overflow-hidden">
-            {/* Motion-animated paragraph using Anime component */}
-
-            {/* Motion-animated paragraph using Anime2 component */}
-            <p className="text-xl font-bold md:text-xl m-0 text-gray-700  ">
-              2D VISUAL
-            </p>
-            <p className="text-center mt-4">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis
-              unde, quo totam earum vitae soluta numquam officiis saepe eaque
-             
-            </p>
-
-            {/* Button with motion animation */}
-            <div className=" mt-2 grid items-center justify-center grid-cols-7 lg:grid-cols-7 md:grid-cols-7 gap-0.5  "></div>
+      {/* Content Side */}
+      <div className="lg:col-span-5 order-2">
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="space-y-6"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 rounded-full bg-surface-muted text-surface-dark flex items-center justify-center font-bold text-xl border border-surface-dark/10">
+              2D
+            </div>
+            <h3 className="text-3xl font-bold text-surface-dark">
+              Architectural Drafting
+            </h3>
           </div>
-          {/* Right column */}
-          <div className="order-3 lg:order-1  grid grid-cols-1 w-full  sm:w-full md:w-auto lg:w-full">
-            {/* Motion-animated image */}
-            <img
-              className=" h-96 w-full sm:w-full col-span-1  object-cover    md:w-[700px] md:h-[600px] lg:w-full lg:h-[700px] xl:w-[800px] xl:h-[800px]  "
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: 1.9,
-                delay: 0.7,
-                ease: [0, 0.71, 0.2, 1.01],
-              }}
-              src={bisko}
-              alt=""
-            />
-          </div>
-        </div>
 
-        {/* Empty div */}
-        <div className=""></div>
-      </section>
-    </>
+          <p className="text-text-muted text-lg leading-relaxed">
+            Every masterpiece begins with a line. Our high-precision 2D drafts
+            serve as the foundational blueprint, ensuring structural accuracy
+            and spatial logic before any 3D modeling begins.
+          </p>
+
+          <ul className="space-y-3 text-text-main font-medium">
+            <li className="flex items-center gap-3">
+              <span className="text-primary">✓</span> Floor Plan Analysis
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="text-primary">✓</span> Structural Integrity Check
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="text-primary">✓</span> Spatial Flow Optimization
+            </li>
+          </ul>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
