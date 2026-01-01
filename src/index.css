@@ -1,3 +1,14 @@
+:root {
+  --color-primary: #CA8A04;
+  --color-primary-light: #EAB308;
+  --color-surface-dark: #242424;
+  --color-surface-light: #ffffff;
+  --color-surface-muted: #f3f4f6;
+  --color-text-main: #1f2937;
+  --color-text-muted: #4b5563;
+  --color-text-inverse: #ffffff;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

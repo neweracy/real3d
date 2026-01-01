@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
     height: 5px;
-    background: gold;
+    background: var(--color-primary-light);
     transform-origin: 0%;
     padding-bottom: 3px;
   }
