@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "real3d",
     "public": "dist",
     "ignore": [
       "firebase.json",
