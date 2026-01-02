@@ -31,7 +31,7 @@ function App() {
           </section>
           <div className="relative min-h-screen w-full overflow-hidden bg-surface-dark flex items-center justify-center">
             {/* Background Atmosphere */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-2">
               <img
                 src={firstPict}
                 alt="Architectural Detail"
@@ -44,7 +44,7 @@ function App() {
             {/* Hero Content */}
             <div className="relative z-10 w-full max-w-7xl px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end pb-20">
               {/* Typography & Brand */}
-              <div className="lg:col-span-8 flex flex-col items-start space-y-6">
+              <div className="lg:col-span-8 flex flex-col items-start z-10 space-y-6">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

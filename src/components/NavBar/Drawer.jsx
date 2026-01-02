@@ -7,7 +7,7 @@ import { Link, animateScroll as scroll } from "react-scroll";
 const Drawer = ({ isScrolled }) => {
   return (
     <div className="">
-      <div className="drawer drawer-end">
+      <div className="drawer drawer-end z-50">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Toggle Button */}

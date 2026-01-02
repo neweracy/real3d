@@ -34,9 +34,10 @@ const Nav = () => {
       <div
         className={`navbar px-6 md:px-12 transition-all duration-300 ease-in-out ${
           isScrolled
-            ? "bg-surface-light/90 backdrop-blur-md shadow-sm py-2"
+            ? "bg-surface-light/95 backdrop-blur-sm shadow-sm py-2"
             : "bg-transparent py-6"
         }`}
+        style={{ backfaceVisibility: "hidden", WebkitFontSmoothing: "antialiased" }}
       >
         <div className="flex-1">
           <a

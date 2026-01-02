@@ -2,4 +2,13 @@
     color-scheme: dark;
     color: var(--color-text-inverse);
     background-color: var(--color-surface-dark);
-  }
+}
+
+.drawer-side {
+    position: fixed !important;
+    z-index: 9999 !important;
+}
+
+.drawer-overlay {
+    position: fixed !important;
+}
